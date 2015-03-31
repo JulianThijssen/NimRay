@@ -36,18 +36,18 @@ Renderer::Renderer() {
 	camera.setZFar(10);
 	camPos.set(3, 2, 7);
 }
-
+float i = 0;
 void Renderer::update() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(computeShader);
 	int workGroupSize[3];
 	glGetProgramiv(computeShader, GL_COMPUTE_WORK_GROUP_SIZE, workGroupSize);
-	
+	i += 0.001;
 	// Camera properties
 	camera.loadProjectionMatrix(projMatrix);
 	viewMatrix.setIdentity();
-	viewMatrix.rotate(Vector3f(0, -30, 0));
+	viewMatrix.rotate(Vector3f(0, -sin(i)*10 - 15, 0));
 	viewMatrix.translate(-camPos);
 	Matrix4f invM = (projMatrix * viewMatrix);
 	invM.inverse();

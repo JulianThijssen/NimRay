@@ -91,43 +91,6 @@ float Matrix4f::determinant() {
 	return f;
 }
 
-//void Matrix4f::inverse() {
-//	float det = determinant();
-//
-//	if (det != 0) {
-//		/* do it the ordinary way
-//		*
-//		* inv(A) = 1/det(A) * adj(T), where adj(T) = transpose(Conjugate Matrix)
-//		*
-//		* m00 m01 m02
-//		* m10 m11 m12
-//		* m20 m21 m22
-//		*/
-//		float det_inv = 1.0f / det;
-//
-//		// get the conjugate matrix
-//		float t00 = a[5] * a[10] - a[6] * a[9];
-//		float t01 = -a[4] * a[10] + a[6] * a[8];
-//		float t02 = a[4] * a[9] - a[5] * a[8];
-//		float t10 = -a[1] * a[10] + a[2] * a[9];
-//		float t11 = a[0] * a[10] - a[2] * a[8];
-//		float t12 = -a[0] * a[9] + a[1] * a[8];
-//		float t20 = a[1] * a[6] - a[2] * a[5];
-//		float t21 = -a[0] * a[6] + a[2] * a[4];
-//		float t22 = a[0] * a[5] - a[1] * a[4];
-//
-//		a[0] = t00 * det_inv;
-//		a[5] = t11 * det_inv;
-//		a[10] = t22 * det_inv;
-//		a[1] = t10 * det_inv;
-//		a[4] = t01 * det_inv;
-//		a[8] = t02 * det_inv;
-//		a[2] = t20 * det_inv;
-//		a[6] = t21 * det_inv;
-//		a[9] = t12 * det_inv;
-//	}
-//}
-
 void Matrix4f::inverse() {
 	double inv[16], det;
 	int i;

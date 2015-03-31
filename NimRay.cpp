@@ -9,8 +9,6 @@
 ** Author: Julian Thijssen
 ** -------------------------------------------------------------------------*/
 
-#include <iostream>
-
 #include "Window.h"
 #include "Renderer.h"
 
