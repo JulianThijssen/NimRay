@@ -10,6 +10,10 @@ uniform vec3 raybr;
 uniform vec3 raytl;
 uniform vec3 raytr;
 
+struct Light {
+	vec3 position;
+};
+
 struct box {
 	vec3 min;
 	vec3 max;
@@ -23,6 +27,7 @@ struct Sphere {
 struct hitinfo {
 	vec2 lambda;
 	int bi;
+	vec3 color;
 };
 
 #define MAX_SCENE_BOUNDS 100.0
@@ -36,7 +41,16 @@ const box boxes[] = {
 };
 
 //const Sphere ball = Sphere(vec3(2, 1, -1), 1);
+uniform Light light = Light(vec3(5, 5, 5));
 uniform Sphere sphere;
+
+vec3 calculateMatte(vec3 normal, vec3 lightDir) {
+	normal = normalize(normal);
+	lightDir = normalize(lightDir);
+	float diffuse = dot(normal, lightDir);
+	
+	return vec3(diffuse, diffuse, diffuse);
+}
 
 vec2 intersectBox(vec3 origin, vec3 dir, const box b) {
 	vec3 tMin = (b.min - origin) / dir;
@@ -68,6 +82,11 @@ bool intersectSphere(vec3 origin, vec3 dir, const Sphere s, out hitinfo info) {
 		float t2 = (-b + sqrt(D))/(2*a);
 		if (t1 < t2) { info.lambda = vec2(t1, t2); }
 		if (t2 < t1) { info.lambda = vec2(t2, t1); }
+		vec3 ip = origin + info.lambda.x * dir;
+		vec3 normal = ip - s.position;
+		vec3 lightDir = light.position - ip;
+		info.color = calculateMatte(normal, lightDir);
+		
 		return true;
 	}
 }
@@ -81,6 +100,7 @@ bool intersectBoxes(vec3 origin, vec3 dir, out hitinfo info) {
 		if (lambda.x > 0.0 && lambda.x < lambda.y && lambda.x < smallest) {
 			info.lambda = lambda;
 			info.bi = i;
+			info.color = vec3(0, 1, 0);
 			smallest = lambda.x;
 			found = true;
 		}
@@ -90,23 +110,25 @@ bool intersectBoxes(vec3 origin, vec3 dir, out hitinfo info) {
 
 vec4 trace(vec3 origin, vec3 dir) {
 	hitinfo i;
-	vec4 gray = vec4(0, 0, 0, 1);
+	vec3 color = vec3(0, 0, 0);
 	float smallest = MAX_SCENE_BOUNDS;
 	
 	if (intersectBoxes(origin, dir, i)) {
 		if (i.lambda.x < smallest) {
-			gray = vec4(i.lambda.x / MAX_SCENE_BOUNDS);
+			//gray = vec4(i.lambda.x / MAX_SCENE_BOUNDS);
 			smallest = i.lambda.x;
+			color = i.color;
 		}
 	}
 	if (intersectSphere(origin, dir, sphere, i)) {
 		if (i.lambda.x < smallest) {
-			gray = vec4(i.lambda.x / MAX_SCENE_BOUNDS);
+			//gray = vec4(i.lambda.x / MAX_SCENE_BOUNDS);
+			color = i.color;
 			smallest = i.lambda.x;
 		}
 	}
 	
-	return vec4(gray.rgb, 1.0);
+	return vec4(color, 1.0);
 }
 
 void main(void) {

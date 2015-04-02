@@ -36,8 +36,8 @@ Window::Window(const char* title, int width, int height) :
 	glfwInit();
 	window = glfwCreateWindow(width, height, title, NULL, NULL);
 	glfwMakeContextCurrent(window);
-	glewInit();
 	glfwSwapInterval(0);
+	glewInit();
 }
 
 std::string Window::getTitle() {
@@ -76,22 +76,22 @@ bool Window::isClosed() {
 void Window::onError(int error, const char* description) {
 	switch (error) {
 	case GLFW_NOT_INITIALIZED:
-		Log::error("A window function was called while the window was not initialized");
+		Log::error("A window function was called while the window was not initialized"); break;
 	case GLFW_NO_CURRENT_CONTEXT:
-		Log::error("A window function was called that depends on OpenGL, but no GL context is set");
+		Log::error("A window function was called that depends on OpenGL, but no GL context is set"); break;
 	case GLFW_INVALID_ENUM:
-		Log::error("A window function was called with an invalid argument enum");
+		Log::error("A window function was called with an invalid argument enum"); break;
 	case GLFW_INVALID_VALUE:
-		Log::error("A window function was called with an invalud argument value");
+		Log::error("A window function was called with an invalud argument value"); break;
 	case GLFW_OUT_OF_MEMORY:
-		Log::error("A window function caused a failed memory allocation");
+		Log::error("A window function caused a failed memory allocation"); break;
 	case GLFW_API_UNAVAILABLE:
-		Log::error("The window could not find support for the requested API");
+		Log::error("The window could not find support for the requested API"); break;
 	case GLFW_VERSION_UNAVAILABLE:
-		Log::error("The requested OpenGL version is not available on this machine");
+		Log::error("The requested OpenGL version is not available on this machine"); break;
 	case GLFW_PLATFORM_ERROR:
-		Log::error("A window function caused a platform error");
+		Log::error("A window function caused a platform error"); break;
 	case GLFW_FORMAT_UNAVAILABLE:
-		Log::error("The requested pixel format is not supported or the contents of the clipboard could not be converted to the requested format");
+		Log::error("The requested pixel format is not supported or the contents of the clipboard could not be converted to the requested format"); break;
 	}
 }
