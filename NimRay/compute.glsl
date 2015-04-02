@@ -16,7 +16,7 @@ struct box {
 };
 
 struct Sphere {
-	vec3 center;
+	vec3 position;
 	float radius;
 };
 
@@ -35,7 +35,8 @@ const box boxes[] = {
 	{vec3(-0.5, 0.0, -0.5), vec3(0.5, 1.0, 0.5)}
 };
 
-const Sphere ball = Sphere(vec3(2, 1, -1), 1);
+//const Sphere ball = Sphere(vec3(2, 1, -1), 1);
+uniform Sphere sphere;
 
 vec2 intersectBox(vec3 origin, vec3 dir, const box b) {
 	vec3 tMin = (b.min - origin) / dir;
@@ -48,7 +49,7 @@ vec2 intersectBox(vec3 origin, vec3 dir, const box b) {
 }
 
 bool intersectSphere(vec3 origin, vec3 dir, const Sphere s, out hitinfo info) {
-	vec3 oc = origin - s.center;
+	vec3 oc = origin - s.position;
 	float a = dot(dir, dir);
 	float b = 2 * dot(oc, dir);
 	float c = dot(oc, oc) - (s.radius * s.radius);
@@ -98,7 +99,7 @@ vec4 trace(vec3 origin, vec3 dir) {
 			smallest = i.lambda.x;
 		}
 	}
-	if (intersectSphere(origin, dir, ball, i)) {
+	if (intersectSphere(origin, dir, sphere, i)) {
 		if (i.lambda.x < smallest) {
 			gray = vec4(i.lambda.x / MAX_SCENE_BOUNDS);
 			smallest = i.lambda.x;

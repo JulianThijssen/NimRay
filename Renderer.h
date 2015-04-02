@@ -10,15 +10,19 @@
 ** -------------------------------------------------------------------------*/
 
 #include "Camera.h"
+#include "scene/Scene.h"
 #include "Matrix4f.h"
 #include "Vector3f.h"
 
 class Renderer {
 public:
 	Renderer();
+	void setScene(Scene* scene);
 	void update();
 	int getQuad();
 private:
+	Scene* scene;
+
 	unsigned int frameBuffer;
 	unsigned int computeShader;
 	unsigned int drawShader;

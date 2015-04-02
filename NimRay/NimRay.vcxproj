@@ -89,6 +89,9 @@
     <ClInclude Include="..\Math.h" />
     <ClInclude Include="..\Matrix4f.h" />
     <ClInclude Include="..\Renderer.h" />
+    <ClInclude Include="..\scene\Entity.h" />
+    <ClInclude Include="..\scene\Scene.h" />
+    <ClInclude Include="..\scene\Sphere.h" />
     <ClInclude Include="..\ShaderLoader.h" />
     <ClInclude Include="..\Vector3f.h" />
     <ClInclude Include="..\Window.h" />
